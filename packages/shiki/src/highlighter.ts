@@ -94,7 +94,7 @@ class Shiki {
         if (!ltog[lang]) {
           throw Error(`No language registration for ${lang}`)
         }
-        const tokens = tokenizeWithTheme(this._theme, this._colorMap, code, ltog[lang])
+        const tokens = tokenizeWithTheme(this._theme, this._colorMap, code, ltog[lang], false)
         return renderToHtml(tokens, {
           bg: this._theme.bg
         })

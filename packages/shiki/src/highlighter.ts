@@ -9,7 +9,7 @@ import {
 } from 'shiki-languages'
 
 import { Resolver } from './resolver'
-import { getOnigasm } from './onigLibs'
+import oniguruma from 'oniguruma'
 import { tokenizeWithTheme, IThemedToken } from './themedTokenizer'
 import { renderToHtml } from './renderer'
 
@@ -51,7 +51,7 @@ class Shiki {
   private _langs: ILanguageRegistration[]
 
   constructor(theme: IShikiTheme, langs: ILanguageRegistration[]) {
-    this._resolver = new Resolver(langs, getOnigasm(), 'onigasm')
+    this._resolver = new Resolver(langs, oniguruma, 'oniguruma')
     this._registry = new Registry(this._resolver)
 
     this._registry.setTheme(theme)

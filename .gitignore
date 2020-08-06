@@ -1,3 +1,5 @@
 dist
 node_modules
 tsconfig.tsbuildinfo
+react-*.js
+shiki-*js

@@ -33,10 +33,12 @@ export function renderToHtml(lines: IThemedToken[][], options: HtmlRendererOptio
 }
 
 function escapeHtml(html: string) {
-  return html
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/&/g, '&amp;')
-    .replace(/'/g, '&apos;')
+  return (
+    html
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      //.replace(/&/g, '&amp;')  // why do this twice?
+      .replace(/'/g, '&apos;')
+  )
 }

@@ -20,6 +20,11 @@ export interface HighlighterOptions {
   langs?: TLang[]
 }
 
+export interface HtmlOptions {
+  // Pass an array of lines and line ranges (strikes like "4-18")
+  highlightLines?: (string | number)[]
+}
+
 export async function getHighlighter(options: HighlighterOptions) {
   let t: IShikiTheme
   if (typeof options.theme === 'string') {
@@ -85,7 +90,7 @@ class Shiki {
         }
         return tokenizeWithTheme(this._theme, this._colorMap, code, ltog[lang])
       },
-      codeToHtml: (code, lang) => {
+      codeToHtml: (code, lang, options) => {
         if (isPlaintext(lang)) {
           return renderToHtml([[{ content: code }]], {
             bg: this._theme.bg
@@ -96,7 +101,8 @@ class Shiki {
         }
         const tokens = tokenizeWithTheme(this._theme, this._colorMap, code, ltog[lang], false)
         return renderToHtml(tokens, {
-          bg: this._theme.bg
+          bg: this._theme.bg,
+          highlightLines: options?.highlightLines
         })
       }
     }
@@ -109,7 +115,7 @@ function isPlaintext(lang) {
 
 export interface Highlighter {
   codeToThemedTokens(code: string, lang: TLang): IThemedToken[][]
-  codeToHtml?(code: string, lang: TLang): string
+  codeToHtml?(code: string, lang: TLang, options?: HtmlOptions): string
 
   // codeToRawHtml?(code: string): string
   // getRawCSS?(): string

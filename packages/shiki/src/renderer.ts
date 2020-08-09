@@ -1,10 +1,10 @@
 import { IThemedToken } from './themedTokenizer'
-import { isNumber } from 'util'
 
 export interface HtmlRendererOptions {
   langId?: string
   bg?: string
   highlightLines?: (string | number)[]
+  debugColors?: boolean
 }
 
 export function renderToHtml(lines: IThemedToken[][], options: HtmlRendererOptions = {}) {
@@ -31,7 +31,25 @@ export function renderToHtml(lines: IThemedToken[][], options: HtmlRendererOptio
 
     if (l.length > 0) {
       l.forEach(token => {
-        html += `<span style="color: ${token.color}">${escapeHtml(token.content)}</span>`
+        let debugInfo = ''
+        if (options.debugColors) {
+          const tokenScopes = token.explanation
+            .map(ex => ex.scopes.map(s => s.scopeName).join(', '))
+            .join('; ')
+          const themeMatches = token.explanation
+            .map(ex =>
+              ex.scopes
+                .map(s => s.themeMatches?.map(tm => tm.name).join(','))
+                .filter(Boolean)
+                .join('; ')
+            )
+            .filter(Boolean)
+            .join(' | ')
+          debugInfo = ` data-token-scopes="${tokenScopes}" data-theme-matches="${themeMatches}"`
+        }
+        html += `<span style="color: ${token.color}"${debugInfo}>${escapeHtml(
+          token.content
+        )}</span>`
       })
     }
 

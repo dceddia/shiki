@@ -23,6 +23,8 @@ export interface HighlighterOptions {
 export interface HtmlOptions {
   // Pass an array of lines and line ranges (strikes like "4-18")
   highlightLines?: (string | number)[]
+  // When debugColors is true, include token scope info in the HTML as data attributes
+  debugColors?: boolean
 }
 
 export async function getHighlighter(options: HighlighterOptions) {
@@ -99,10 +101,18 @@ class Shiki {
         if (!ltog[lang]) {
           throw Error(`No language registration for ${lang}`)
         }
-        const tokens = tokenizeWithTheme(this._theme, this._colorMap, code, ltog[lang], false)
+
+        const tokens = tokenizeWithTheme(
+          this._theme,
+          this._colorMap,
+          code,
+          ltog[lang],
+          options?.debugColors
+        )
         return renderToHtml(tokens, {
           bg: this._theme.bg,
-          highlightLines: options?.highlightLines
+          highlightLines: options?.highlightLines,
+          debugColors: options?.debugColors
         })
       }
     }

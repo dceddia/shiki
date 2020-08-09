@@ -4,5 +4,7 @@
   ],
   "version": "0.1.7",
   "npmClient": "yarn",
-  "useWorkspaces": true
+  "useWorkspaces": true,
+  "useGitVersion": true,
+  "gitVersionPrefix": "v"
 }

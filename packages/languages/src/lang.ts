@@ -370,7 +370,7 @@ export const languages: ILanguageRegistration[] = [
   {
     id: 'swift',
     scopeName: 'source.swift',
-    path: path.resolve(__dirname, '../data/grammars/swift.json'),
+    path: path.resolve(__dirname, '../data/grammars/swift.tmLanguage.json'),
     aliases: []
   },
   {

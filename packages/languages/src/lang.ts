@@ -237,8 +237,8 @@ export const languages: ILanguageRegistration[] = [
   },
   {
     id: 'jsx',
-    scopeName: 'source.js',
-    path: path.resolve(__dirname, '../data/grammars/JavaScript.tmLanguage.json'),
+    scopeName: 'source.js.jsx',
+    path: path.resolve(__dirname, '../data/grammars/JavaScriptReact.tmLanguage.json'),
     aliases: []
   },
   {

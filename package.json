@@ -3,6 +3,7 @@
   "workspaces": [
     "packages/*"
   ],
+  "version": "0.0.1",
   "scripts": {
     "build": "tsc -b packages",
     "watch": "tsc -b -w packages",

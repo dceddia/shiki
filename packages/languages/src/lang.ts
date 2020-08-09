@@ -30,6 +30,7 @@ export const commonLangIds: TCommonLang[] = [
   'scss',
   'shellscript',
   'sql',
+  'svelte',
   'swift',
   'typescript',
   'tsx',
@@ -284,6 +285,12 @@ export const languages: ILanguageRegistration[] = [
     aliases: ['md']
   },
   {
+    id: 'markdown.svelte',
+    scopeName: 'markdown.svelte.codeblock',
+    path: path.resolve(__dirname, '../data/grammars/markdown-svelte.json'),
+    aliases: []
+  },
+  {
     id: 'objective-c',
     scopeName: 'source.objc',
     path: path.resolve(__dirname, '../data/grammars/Objective-C.tmLanguage'),
@@ -365,6 +372,12 @@ export const languages: ILanguageRegistration[] = [
     id: 'sql',
     scopeName: 'source.sql',
     path: path.resolve(__dirname, '../data/grammars/SQL.plist'),
+    aliases: []
+  },
+  {
+    id: 'svelte',
+    scopeName: 'source.svelte',
+    path: path.resolve(__dirname, '../data/grammars/svelte.tmLanguage.json'),
     aliases: []
   },
   {

@@ -26,6 +26,7 @@ export type TCommonLang =
   | 'scss'
   | 'shellscript'
   | 'sql'
+  | 'svelte'
   | 'swift'
   | 'typescript'
   | 'tsx'

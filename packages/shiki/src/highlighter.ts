@@ -98,7 +98,8 @@ class Shiki {
       codeToHtml: (code, lang, options) => {
         if (isPlaintext(lang)) {
           return renderToHtml([[{ content: code }]], {
-            bg: this._theme.bg
+            bg: this._theme.bg,
+            fg: this._theme.fg
           })
         }
         if (!ltog[lang]) {
@@ -117,6 +118,7 @@ class Shiki {
         return renderToHtml(tokens, {
           langId: lang,
           bg: this._theme.bg,
+          fg: this._theme.fg,
           highlightLines: options?.highlightLines,
           addLines: options?.addLines,
           deleteLines: options?.deleteLines,

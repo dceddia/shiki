@@ -3,6 +3,7 @@ import { IThemedToken } from './themedTokenizer'
 export interface HtmlRendererOptions {
   langId?: string
   bg?: string
+  fg?: string
   highlightLines?: (string | number)[]
   addLines?: (string | number)[]
   deleteLines?: (string | number)[]
@@ -12,6 +13,7 @@ export interface HtmlRendererOptions {
 
 export function renderToHtml(lines: IThemedToken[][], options: HtmlRendererOptions = {}) {
   const bg = options.bg || '#fff'
+  const fg = options.fg || '#000'
   const highlightedLines = makeHighlightSet(options.highlightLines)
   const addLines = makeHighlightSet(options.addLines)
   const deleteLines = makeHighlightSet(options.deleteLines)
@@ -32,7 +34,7 @@ export function renderToHtml(lines: IThemedToken[][], options: HtmlRendererOptio
     className += ' has-focus'
   }
 
-  html += `<pre class="${className}" style="background-color: ${bg}" data-language="${options.langId}">`
+  html += `<pre class="${className}" style="background-color: ${bg}; color: ${fg}" data-language="${options.langId}">`
   html += `<code>`
 
   lines.forEach((l: any[], index: number) => {

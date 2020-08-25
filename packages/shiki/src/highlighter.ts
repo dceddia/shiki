@@ -11,7 +11,7 @@ import {
 import { Resolver } from './resolver'
 import { getOniguruma } from './onigLibs'
 import { tokenizeWithTheme, IThemedToken } from './themedTokenizer'
-import { renderToHtml } from './renderer'
+import { renderToHtml, makeHighlightSet } from './renderer'
 
 import { getTheme, TTheme, IShikiTheme } from 'shiki-themes'
 
@@ -23,6 +23,9 @@ export interface HighlighterOptions {
 export interface HtmlOptions {
   // Pass an array of lines and line ranges (strikes like "4-18")
   highlightLines?: (string | number)[]
+  addLines?: (string | number)[]
+  deleteLines?: (string | number)[]
+  focusLines?: (string | number)[]
   // When debugColors is true, include token scope info in the HTML as data attributes
   debugColors?: boolean
 }
@@ -107,12 +110,17 @@ class Shiki {
           this._colorMap,
           code,
           ltog[lang],
-          options?.debugColors
+          options?.debugColors,
+          // Exclude deleted lines from highlighting, so they don't mess up the surrounding lines
+          options?.deleteLines ? makeHighlightSet(options.deleteLines) : new Set()
         )
         return renderToHtml(tokens, {
           langId: lang,
           bg: this._theme.bg,
           highlightLines: options?.highlightLines,
+          addLines: options?.addLines,
+          deleteLines: options?.deleteLines,
+          focusLines: options?.focusLines,
           debugColors: options?.debugColors
         })
       }

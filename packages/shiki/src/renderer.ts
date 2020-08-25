@@ -4,17 +4,32 @@ export interface HtmlRendererOptions {
   langId?: string
   bg?: string
   highlightLines?: (string | number)[]
+  addLines?: (string | number)[]
+  deleteLines?: (string | number)[]
+  focusLines?: (string | number)[]
   debugColors?: boolean
 }
 
 export function renderToHtml(lines: IThemedToken[][], options: HtmlRendererOptions = {}) {
   const bg = options.bg || '#fff'
   const highlightedLines = makeHighlightSet(options.highlightLines)
+  const addLines = makeHighlightSet(options.addLines)
+  const deleteLines = makeHighlightSet(options.deleteLines)
+  const focusLines = makeHighlightSet(options.focusLines)
 
   let html = ''
   let className = 'shiki'
   if (highlightedLines.size) {
     className += ' highlighted'
+  }
+  if (addLines.size) {
+    className += ' added'
+  }
+  if (deleteLines.size) {
+    className += ' deleted'
+  }
+  if (focusLines.size) {
+    className += ' has-focus'
   }
 
   html += `<pre class="${className}" style="background-color: ${bg}" data-language="${options.langId}">`
@@ -22,8 +37,21 @@ export function renderToHtml(lines: IThemedToken[][], options: HtmlRendererOptio
 
   lines.forEach((l: any[], index: number) => {
     const lineNo = index + 1
+    let highlightClasses = ''
     if (highlightedLines.has(lineNo)) {
-      html += `<span class="hl">`
+      highlightClasses += ' hl'
+    }
+    if (addLines.has(lineNo)) {
+      highlightClasses += ' add'
+    }
+    if (deleteLines.has(lineNo)) {
+      highlightClasses += ' del'
+    }
+    if (focusLines.has(lineNo)) {
+      highlightClasses += ' foc'
+    }
+    if (highlightClasses) {
+      html += `<span class="${highlightClasses.trim()}">`
     }
 
     if (l.length > 0) {
@@ -50,7 +78,7 @@ export function renderToHtml(lines: IThemedToken[][], options: HtmlRendererOptio
       })
     }
 
-    if (highlightedLines.has(lineNo)) {
+    if (highlightClasses) {
       // Newline goes before the close, so that display:block on the line will work
       html += `\n</span>`
     } else {
@@ -72,8 +100,8 @@ function commaSeparatedLinesToArray(lineList: string) {
   })
 }
 
-function makeHighlightSet(highlightLines?: (string | number)[]) {
-  const lines = new Set()
+export function makeHighlightSet(highlightLines?: (string | number)[]): Set<number> {
+  const lines = new Set<number>()
 
   if (!highlightLines) {
     return lines

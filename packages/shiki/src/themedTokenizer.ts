@@ -27,7 +27,8 @@ export function tokenizeWithTheme(
   colorMap: string[],
   fileContents: string,
   grammar: IGrammar,
-  includeExplanations: boolean = true
+  includeExplanations: boolean = true,
+  ignoreLines: Set<number> = new Set()
 ): IThemedToken[][] {
   let lines = fileContents.split(/\r\n|\r|\n/)
 
@@ -40,6 +41,20 @@ export function tokenizeWithTheme(
     if (line === '') {
       actual = []
       final.push([])
+      continue
+    }
+
+    // If this line should be ignored (e.g. it's a removed line in a diff),
+    // don't tokenize it, but do include it in the result.
+    // Also - ignoreLines is 1-based
+    if (ignoreLines.has(i + 1)) {
+      final.push([
+        {
+          content: line,
+          color: '',
+          explanation: []
+        }
+      ])
       continue
     }
 
